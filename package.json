@@ -1,0 +1,22 @@
+{
+  "name": "battery-watchdog",
+  "version": "1.0.0",
+  "description": "A tool to watch your battery for you",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [
+    "battery",
+    "monitor",
+    "watchdog",
+    "watch",
+    "optimize"
+  ],
+  "author": "Jason Jay Sumagdon Nulla",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^8.2.0"
+  }
+}
