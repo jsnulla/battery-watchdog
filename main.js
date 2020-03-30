@@ -1,36 +1,37 @@
-const { app, BrowserWindow, Notification, Menu, Tray, powerMonitor } = require('electron')
+const { app, Notification, Menu, Tray, powerMonitor } = require('electron')
 const { exec } = require('child_process')
 const imagesPath = './assets/images'
 const iconFileName = 'watchdog-white-icon'
+let appTray = null
 let batteryInfo = null
 let notification = null
 let notificationIsShown = false
 let notificationDismissed = false
 
-function createWindow () {
-  // Create the browser window.
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    icon: `${imagesPath}/${iconFileName}-32px.png`,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
-
-  // and load the index.html of the app.
-  win.loadFile('index.html')
-
-  // Open the DevTools.
-  win.webContents.openDevTools()
-}
+// function createWindow () {
+//   // Create the browser window.
+//   const win = new BrowserWindow({
+//     width: 800,
+//     height: 600,
+//     icon: `${imagesPath}/${iconFileName}-32px.png`,
+//     webPreferences: {
+//       nodeIntegration: true
+//     }
+//   })
+//
+//   // and load the index.html of the app.
+//   win.loadFile('index.html')
+//
+//   // Open the DevTools.
+//   win.webContents.openDevTools()
+// }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 // app.whenReady().then(createWindow)
 
-app.allowRendererProcessReuse = true
+// app.allowRendererProcessReuse = true
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -41,13 +42,13 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
-  }
-})
+// app.on('activate', () => {
+//   // On macOS it's common to re-create a window in the app when the
+//   // dock icon is clicked and there are no other windows open.
+//   if (BrowserWindow.getAllWindows().length === 0) {
+//     createWindow()
+//   }
+// })
 
 async function getBatteryLevel() {
   await new Promise((res, rej) => {
@@ -110,12 +111,15 @@ function notifyPlugCharger() {
 }
 
 function setupTray() {
-  const tray = new Tray(`${imagesPath}/${iconFileName}-32px.png`)
+  appTray = new Tray(`${imagesPath}/${iconFileName}-32px.png`)
+  const appVersion = require('./package.json').version
   const contextMenu = Menu.buildFromTemplate([
-    { label: 'Close', type: 'normal', click: () => { app.quit() } }
+    { label: 'Close', type: 'normal', click: () => { app.quit() } },
+    { type: 'separator' },
+    { label: `Version: ${appVersion}`, type: 'normal' }
   ])
-  tray.setToolTip('Battery Watchdog: We are watching for you.')
-  tray.setContextMenu(contextMenu)
+  appTray.setToolTip('Battery Watchdog: We are watching for you.')
+  appTray.setContextMenu(contextMenu)
 }
 
 function setupNotificationHooks() {
