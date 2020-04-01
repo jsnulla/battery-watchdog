@@ -1,7 +1,7 @@
 const { app, Notification, Menu, Tray, powerMonitor } = require('electron')
 const { exec } = require('child_process')
-const imagesPath = './assets/images'
-const iconFileName = 'IconTemplate'
+const fs = require('fs')
+const path = require('path')
 let appTray = null
 let batteryInfo = null
 let notification = null
@@ -13,7 +13,7 @@ let notificationDismissed = false
 //   const win = new BrowserWindow({
 //     width: 800,
 //     height: 600,
-//     icon: `${imagesPath}/${iconFileName}.png`,
+//     icon: path.join(__dirname, 'assets', 'images', 'AppIcon.iconset', 'icon_64x64.png'),
 //     webPreferences: {
 //       nodeIntegration: true
 //     }
@@ -111,7 +111,7 @@ function notifyPlugCharger() {
 }
 
 function setupTray() {
-  appTray = new Tray(`${imagesPath}/${iconFileName}.png`)
+  appTray = new Tray(path.join(__dirname, 'assets', 'images', 'AppIcon.iconset', 'icon_32x32.png'))
   const appVersion = require('./package.json').version
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Close', type: 'normal', click: () => { app.quit() } },
@@ -125,7 +125,7 @@ function setupTray() {
 function setupNotificationHooks() {
   notification = new Notification({
     title: 'Battery Watchdog',
-    icon: `${imagesPath}/${iconFileName}@2x.png`,
+    icon: path.join(__dirname, 'assets', 'images', 'AppIcon.iconset', 'icon_64x64.png'),
     silent: false,
   })
 
