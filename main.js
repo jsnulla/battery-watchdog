@@ -78,7 +78,7 @@ function notifyPlugCharger() {
 }
 
 function setupTray() {
-  appTray = new Tray(path.join(__dirname, 'assets', 'images', 'AppIcon.iconset', 'icon_32x32.png'))
+  appTray = new Tray(path.join(__dirname, 'assets', 'images', 'IconTemplate.png'))
   const appVersion = require('./package.json').version
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Close', type: 'normal', click: () => { app.quit() } },
@@ -92,7 +92,7 @@ function setupTray() {
 function setupNotificationHooks() {
   notification = new Notification({
     title: 'Battery Watchdog',
-    icon: path.join(__dirname, 'assets', 'images', 'AppIcon.iconset', 'icon_64x64.png'),
+    icon: path.join(__dirname, 'assets', 'images', 'IconTemplate@2x.png'),
     silent: false,
   })
 
