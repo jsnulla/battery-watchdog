@@ -98,7 +98,6 @@ function setupTray() {
 function setupNotificationHooks() {
   notification = new Notification({
     title: 'Battery Watchdog',
-    icon: path.join(__dirname, 'assets', 'images', 'IconTemplate@2x.png'),
     silent: false,
   })
 
