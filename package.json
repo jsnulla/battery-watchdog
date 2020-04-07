@@ -1,6 +1,6 @@
 {
   "name": "battery-watchdog",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A tool to watch your battery for you",
   "main": "main.js",
   "scripts": {
