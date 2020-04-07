@@ -5,8 +5,8 @@ const path = require('path')
 let appTray = null
 let batteryInfo = null
 let notification = null
-let notificationIsShown = false
-let notificationDismissed = false
+let lastNotificationBody = null
+let lastNotificationTime = null
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -62,8 +62,7 @@ async function ticker() {
 function notifyRemoveCharger() {
   notification.body = 'You can now stop charging your device'
 
-  if (notificationIsShown === false && notificationDismissed == false) {
-    notificationDismissed = false
+  if (shouldDisplayNotification() === true) {
     notification.show()
   }
 }
@@ -71,10 +70,17 @@ function notifyRemoveCharger() {
 function notifyPlugCharger() {
   notification.body = 'Please plug-in your device\'s charger now'
 
-  if (notificationIsShown === false && notificationDismissed == false) {
-    notificationDismissed = false
+  if (shouldDisplayNotification() === true) {
     notification.show()
   }
+}
+
+function timeNow() {
+  return Math.floor( new Date().getTime() / 1000)
+}
+
+function shouldDisplayNotification() {
+  return lastNotificationBody !== notification.body && lastNotificationTime !== timeNow()
 }
 
 function setupTray() {
@@ -97,12 +103,8 @@ function setupNotificationHooks() {
   })
 
   notification.on('show', () => {
-    notificationIsShown = true
-  })
-
-  notification.on('click', () => {
-    notificationIsShown = false
-    notificationDismissed = true
+    lastNotificationBody = notification.body
+    lastNotificationTime = timeNow()
   })
 }
 
