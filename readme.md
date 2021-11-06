@@ -1,3 +1,5 @@
+⚠️ This code is not maintained ⚠️
+
 ## What is Battery Watchdog?
 It's literally a watchdog for your battery levels. Research shows that batteries that are kept charged between 35%~80% are more likely to last longer.
 
